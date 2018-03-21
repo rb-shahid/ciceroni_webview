@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "641538968486",
+    "firebase_url": "https://ciceroniandroid-19db3.firebaseio.com",
+    "project_id": "ciceroniandroid-19db3",
+    "storage_bucket": "ciceroniandroid-19db3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641538968486:android:b48f8d6fd2c61228",
+        "android_client_info": {
+          "package_name": "com.dimal.ciceroni"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641538968486-iplpb12fl4h30gh2a1b6njudmb9h27tp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYO-OcrtblKlPhB5FdZaieJNxhu7Qa2lU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
