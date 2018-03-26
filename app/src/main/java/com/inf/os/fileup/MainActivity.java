@@ -43,43 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (Build.VERSION.SDK_INT >= 21) {
-            Uri[] results = null;
-            //Check if response is positive
-            if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == FCR) {
-                    if (null == mUMA) {
-                        return;
-                    }
-                    if (intent == null || intent.getData() == null) {
-                        //Capture Photo if no image available
-                        if (mCM != null) {
-                            results = new Uri[]{Uri.parse(mCM)};
-                        }
-                    } else {
-                        String dataString = intent.getDataString();
-                        if (dataString != null) {
-                            results = new Uri[]{Uri.parse(dataString)};
-                        }
-                    }
-                }
-            }
-            mUMA.onReceiveValue(results);
-            mUMA = null;
-        } else {
-            if (requestCode == FCR) {
-                if (null == mUM) return;
-                Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
-                mUM.onReceiveValue(result);
-                mUM = null;
-            }
-        }
-    }
-
-    @SuppressLint({"SetJavaScriptEnabled", "WrongViewCast"})
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -130,26 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
             }
 
-            // For Android 3.0+, above method not supported in some android 3+ versions, in such case we use this
-            public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
-                mUM = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                MainActivity.this.startActivityForResult(
-                        Intent.createChooser(i, "File Browser"),
-                        FCR);
-            }
-
-            //For Android 4.1+
-            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-                mUM = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                MainActivity.this.startActivityForResult(Intent.createChooser(i, "File Chooser"), MainActivity.FCR);
-            }
-
             //For Android 5.0+
             public boolean onShowFileChooser(
                     WebView webView, ValueCallback<Uri[]> filePathCallback,
@@ -192,6 +135,42 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (Build.VERSION.SDK_INT >= 21) {
+            Uri[] results = null;
+            //Check if response is positive
+            if (resultCode == Activity.RESULT_OK) {
+                if (requestCode == FCR) {
+                    if (null == mUMA) {
+                        return;
+                    }
+                    if (intent == null || intent.getData() == null) {
+                        //Capture Photo if no image available
+                        if (mCM != null) {
+                            results = new Uri[]{Uri.parse(mCM)};
+                        }
+                    } else {
+                        String dataString = intent.getDataString();
+                        if (dataString != null) {
+                            results = new Uri[]{Uri.parse(dataString)};
+                        }
+                    }
+                }
+            }
+            mUMA.onReceiveValue(results);
+            mUMA = null;
+        } else {
+            if (requestCode == FCR) {
+                if (null == mUM) return;
+                Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
+                mUM.onReceiveValue(result);
+                mUM = null;
+            }
+        }
     }
 
     public class Callback extends WebViewClient {
